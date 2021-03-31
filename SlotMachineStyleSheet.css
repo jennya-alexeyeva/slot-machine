@@ -1,0 +1,87 @@
+body {
+    background-color: lightblue;
+    font-family: verdana;
+}
+div {
+    text-align: center;
+}
+.header {
+    color: black;
+    font-size: 25px;
+    text-align: center;
+    padding: 20px;
+}
+.text {
+    text-align: center;
+    color: black;
+    font-size: 23px;
+}
+.spinner {
+    width: 312px;
+    height: 100px;
+    border: 1px black solid;
+    margin: 15px auto;
+}
+.spinner img {
+    width: 100px;
+    height: 100px;
+}
+form {
+    text-align: center;
+    margin: 20px auto;
+}
+form label {
+    color: black;
+    font-size: 20px;
+}
+form select {
+    font-size: 15px;
+}
+button.spinbutton {
+    margin: auto;
+    width: 125px;
+    height: 75px;
+    font-size: 37.5px;
+    background-color: #f03a3a;
+    color: aliceblue;
+    border-radius: 12px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+button.maxcredits {
+    margin: auto;
+    width: 400px;
+    height: 75px;
+    font-size: 37.5px;
+    background-color: #f03a3a;
+    color: aliceblue;
+    border-radius: 12px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+button.credits {
+    margin: auto;
+    width: 200px;
+    height: 40px;
+    font-size: 25px;
+    background-color: #31d631;
+    color: aliceblue;
+    border-radius: 12px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+button.quit {
+    margin: auto;
+    width: 100px;
+    height: 40px;
+    font-size: 25px;
+    background-color: #ed872d;
+    color: aliceblue;
+    border-radius: 12px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}

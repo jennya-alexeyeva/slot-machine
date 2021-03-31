@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="SlotMachineStyleSheet.css">
+        <title>Slot Machine</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Test Your Luck</h1>
+        </div>
+        <div class="text" id="remaining">
+            Credits Remaining: 100
+        </div>
+        <figure class="spinner">
+            <img id="spinner1">
+            <img id="spinner2">
+            <img id="spinner3">
+        </figure>
+        <div>
+            <button type="button" class="credits" onClick='changeCredits()'>Add 1 Credit</button>
+        </div>
+        <br>
+        <div id="current" class="text">
+            Number of Credits In Slot Machine: 0
+        </div>
+        <br><br><br>
+        <div>
+            <button class="maxcredits" onClick='maxCredits()'>Max Credits and Spin</button>
+            <button class="spinbutton" onClick='spin()'>SPIN!</button>
+            <br><br><br>
+            <button class="quit" onClick='payout()'>Payout</button>
+        </div>
+        <div class="text" id="last spin">
+            Payoff on Last Spin: 0
+        </div>
+        <br>
+        <div class="text" id="total">
+            Total Payoff: 0
+        </div>
+        <script>
+            var creditsRemaining = 100;
+            var creditsInSlotMachine = 0;
+            var spinner1 = [];
+            var spinner2 = [];
+            var spinner3 = [];
+            var totalPayoff = 0;
+            var time = -1;
+            var stop1;
+            var stop2;
+            var stop3;
+            var myVar;
+            var isSpinning = false;
+            var hasQuit = false;
+            function payout() {
+                hasQuit = true;
+                alert("Total Winnings: " + totalPayoff);
+            }
+            function maxCredits() {
+                if (!hasQuit) {
+                    creditsInSlotMachine = 3;
+                    document.getElementById("current").innerHTML = "Number of Credits In Slot Machine: " + creditsInSlotMachine;
+                    spin();
+                }
+            }
+            function changeCredits() {
+                if (creditsInSlotMachine < 3 && !hasQuit) {
+                    creditsInSlotMachine = creditsInSlotMachine + 1;
+                    document.getElementById("current").innerHTML = "Number of Credits In Slot Machine: " + creditsInSlotMachine;
+                }
+            }
+            function randomizeArray() {
+                var symbols = new Array("7.png", "3.png", "2.png", "2.png", "1.png", "1.png", "1.png", "C.png");
+                var arr = [];
+                var index;
+                for (i = 0; i < 8; i++) {
+                    index = Math.floor(Math.random() * (7 - i));
+                    arr.push(symbols[index]);
+                    symbols.splice(index, 1);
+                    arr.push("B.png");
+                }
+                return arr;
+            }
+            function spin() {
+                if (!isSpinning && !hasQuit) {
+                    isSpinning = true;
+                    if (creditsInSlotMachine == 0) {
+                        alert("Please select a number of credits.");
+                    }
+                    else if (creditsInSlotMachine > creditsRemaining) {
+                        alert("Not enough credits.");
+                    }
+                    else {
+                        creditsRemaining = creditsRemaining - creditsInSlotMachine;
+                        document.getElementById("remaining").innerHTML = "Credits Remaining: " + creditsRemaining;
+                        spinner1 = randomizeArray();
+                        spinner2 = randomizeArray();
+                        spinner3 = randomizeArray();
+                        stop1 = Math.floor(Math.random() * 67);
+                        if (stop1 % 2 == 1) {
+                            stop1 = stop1 + 1;
+                        }
+                        stop2 = Math.floor(Math.random() * (67 - stop1)) + stop1 + 1;
+                        if (stop2 % 2 == 1) {
+                            stop2 = stop2 + 1;
+                        }
+                        stop3 = Math.floor(Math.random() * (67 - stop2)) + stop2 + 1;
+                        if (stop3 % 2 == 1) {
+                            stop3 = stop3 + 1;
+                        }
+                        myVar = setInterval(changePictures, 500);
+                    }
+                }
+            }
+            function changePictures() {
+                time = time + 1;
+                if (time == stop3) {
+                    document.getElementById("spinner3").src = spinner3[time % 16];
+                    stopTimer();
+                }
+                else if (time > stop2) {
+                    document.getElementById("spinner3").src = spinner3[time % 16];
+                }
+                else if (time > stop1) {
+                    document.getElementById("spinner3").src = spinner3[time % 16];
+                    document.getElementById("spinner2").src = spinner2[time % 16];
+                }
+                else {
+                    document.getElementById("spinner3").src = spinner3[time % 16];
+                    document.getElementById("spinner2").src = spinner2[time % 16];
+                    document.getElementById("spinner1").src = spinner1[time % 16];
+                }
+            }
+            function stopTimer() {
+                clearInterval(myVar);
+                isSpinning = false;
+                var result1 = document.getElementById("spinner1").src;
+                result1 = result1.substring(result1.length - 5, result1.length);
+                var result2 = document.getElementById("spinner2").src;
+                result2 = result2.substring(result2.length - 5, result2.length);
+                var result3 = document.getElementById("spinner3").src;
+                result3 = result3.substring(result3.length - 5, result3.length);
+                var payoff = 0;
+                var bars = ["1.png", "2.png", "3.png"];
+                if (result1 == "7.png" && result2 == "7.png" && result3 == "7.png") {
+                    if (creditsInSlotMachine == 3) {
+                        payoff = 1500;
+                    }
+                    else {
+                        payoff = 300 * creditsInSlotMachine;
+                    }
+                }
+                else if (result1 == "3.png" && result2 == "3.png" && result3 == "3.png") {
+                    payoff = 100 * creditsInSlotMachine;
+                }
+                else if (result1 == "2.png" && result2 == "2.png" && result3 == "2.png") {
+                    payoff = 50 * creditsInSlotMachine;
+                }
+                else if (result1 == "1.png" && result2 == "1.png" && result3 == "1.png") {
+                    payoff = 25 * creditsInSlotMachine;
+                }
+                else if (bars.includes(result1) && bars.includes(result2) && bars.includes(result3)) {
+                    payoff = 5 * creditsInSlotMachine;
+                }
+                else {
+                    var results = [result1, result2, result3];
+                    for (i = 0; i < 3; i++) {
+                        if (results[i] == "C.png") {
+                            payoff = payoff + (2 * creditsInSlotMachine);
+                        }
+                    }
+                }
+                totalPayoff = totalPayoff + payoff;
+                document.getElementById("last spin").innerHTML = "Payoff on Last Spin: " + payoff;
+                document.getElementById("total").innerHTML = "Total Payoff: " + totalPayoff;
+                creditsInSlotMachine = 0;
+                document.getElementById("current").innerHTML = "Number of Credits In Slot Machine: " + creditsInSlotMachine;
+                time = 0;
+            }
+        </script>
+    </body>
+</html>
